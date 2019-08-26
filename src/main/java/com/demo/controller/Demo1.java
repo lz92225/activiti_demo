@@ -9,7 +9,6 @@ import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricActivityInstanceQuery;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
-import org.activiti.engine.impl.util.Activiti5Util;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.image.ProcessDiagramGenerator;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class Demo1 {
     }
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String start() {
-        String key = "lztest";
+        String key = "demo1";
         logger.info("开始流程。。。");
 
         Map<String, Object> map = new HashMap<>();
