@@ -19,3 +19,8 @@ spring:
     user:
       name: 111
       password: 111
+management:
+  endpoints:
+    web:
+      exposure:
+        include: loggers,sessions

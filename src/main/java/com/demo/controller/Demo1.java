@@ -11,6 +11,7 @@ import org.activiti.engine.history.HistoricActivityInstanceQuery;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -98,9 +99,6 @@ public class Demo1 {
      * <p>启动请假流程（流程key即xml中定义的ID为leaveProcess）</p>
      *
      * @return String 启动的流程ID
-     * @author FRH
-     * @time 2018年12月10日上午11:12:50
-     * @version 1.0
      */
     @RequestMapping(value = "/start")
     @ResponseBody
@@ -116,7 +114,10 @@ public class Demo1 {
 //        deployment.deploy();
 
         //创建流程部署生成器，并部署流程。
-        repositoryService.createDeployment().addClasspathResource("processes/my_process.bpmn").deploy();
+        Deployment deploy = repositoryService.createDeployment().addClasspathResource("processes/my_process.bpmn").deploy();
+//        deploy.getId();
+        logger.info("流程实例ID:", deploy.getId());
+        logger.info("流程定义ID:", deploy.getTenantId());
 
         /*
          *  设置流程参数，开启流程
@@ -130,7 +131,6 @@ public class Demo1 {
         logger.info("启动流程实例成功:{}", instance);
         logger.info("流程实例ID:{}", instance.getId());
         logger.info("流程定义ID:{}", instance.getProcessDefinitionId());
-
 
         /*
          * 验证是否启动成功
@@ -147,7 +147,6 @@ public class Demo1 {
         logger.info("根据流程ID查询条数:{}", runningList.size());
         logger.info("根据流程ID查询条数:{}", count);
 
-
         /*
          *  返回流程ID
          */
@@ -161,9 +160,6 @@ public class Demo1 {
      *
      * @param instanceId 流程实例
      * @param response   void 响应
-     * @author FRH
-     * @time 2018年12月10日上午11:14:12
-     * @version 1.0
      */
     @ResponseBody
     @RequestMapping(value = "/showImg/{instanceId}")
@@ -224,9 +220,6 @@ public class Demo1 {
      *
      * @param request 请求
      * @return String 申请受理结果
-     * @author FRH
-     * @time 2018年12月10日上午11:15:09
-     * @version 1.0
      */
     @RequestMapping(value = "/employeeApply")
     @ResponseBody
@@ -272,9 +265,6 @@ public class Demo1 {
      * <p>跳转到上级审核页面</p>
      *
      * @return String 页面
-     * @author FRH
-     * @time 2018年12月5日下午2:31:42
-     * @version 1.0
      */
     @RequestMapping(value = "/viewTask")
     public String toHigherAudit(String taskId, HttpServletRequest request) {
@@ -311,9 +301,6 @@ public class Demo1 {
      * @param taskId  任务ID
      * @param request 请求
      * @return String 响应页面
-     * @author FRH
-     * @time 2018年12月6日上午9:54:34
-     * @version 1.0
      */
     @RequestMapping(value = "/viewTaskManager")
     public String viewTaskManager(String taskId, HttpServletRequest request) {
@@ -349,9 +336,6 @@ public class Demo1 {
      *
      * @param request 请求
      * @return String 受理结果
-     * @author FRH
-     * @time 2018年12月10日上午11:19:44
-     * @version 1.0
      */
     @ResponseBody
     @RequestMapping(value = "/higherLevelAudit")
@@ -392,9 +376,6 @@ public class Demo1 {
      *
      * @param request 请求
      * @return String 受理结果
-     * @author FRH
-     * @time 2018年12月10日上午11:20:44
-     * @version 1.0
      */
     @ResponseBody
     @RequestMapping(value = "/divisionManagerAudit")
@@ -435,9 +416,6 @@ public class Demo1 {
      *
      * @param request 请求
      * @return String  任务展示页面
-     * @author FRH
-     * @time 2018年12月10日上午11:21:33
-     * @version 1.0
      */
     @RequestMapping(value = "/toShowTask")
     public String toShowTask(HttpServletRequest request) {
@@ -484,9 +462,6 @@ public class Demo1 {
      * @param bpmnModel              图像对象
      * @param flowIds                已执行的线集合
      * @param executedActivityIdList void 已执行的节点ID集合
-     * @author FRH
-     * @time 2018年12月10日上午11:23:01
-     * @version 1.0
      */
     private void outputImg(HttpServletResponse response, BpmnModel bpmnModel, List<String> flowIds, List<String> executedActivityIdList) {
         InputStream imageStream = null;
@@ -518,9 +493,6 @@ public class Demo1 {
      *
      * @param processInstanceId 流程实例ID
      * @return boolean 已完成-true，未完成-false
-     * @author FRH
-     * @time 2018年12月10日上午11:23:26
-     * @version 1.0
      */
     public boolean isFinished(String processInstanceId) {
         return historyService.createHistoricProcessInstanceQuery().finished().processInstanceId(processInstanceId).count() > 0;
