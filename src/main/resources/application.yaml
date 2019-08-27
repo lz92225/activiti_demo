@@ -16,3 +16,6 @@ spring:
   security:
     basic:
       enabled: false
+    user:
+      name: 111
+      password: 111
