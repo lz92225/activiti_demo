@@ -10,7 +10,8 @@ spring:
     history-level: full
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sp_activiti7?serverTimezone=UTC&nullCatalogMeansCurrent=true
+#    url: jdbc:mysql://localhost:3306/sp_activiti7?serverTimezone=Shanghai&useSSL=false&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://localhost:3306/sp_activiti7?useSSL=true&nullCatalogMeansCurrent=true&characterEncoding=UTF-8
     username: root
     password: root
   security:
@@ -24,3 +25,6 @@ management:
     web:
       exposure:
         include: loggers,sessions
+logging:
+  level:
+    org.activiti.engine.impl.persistence.entity: debug
