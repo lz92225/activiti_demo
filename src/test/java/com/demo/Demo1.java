@@ -10,6 +10,7 @@ import org.activiti.engine.*;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.DelegationState;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +64,7 @@ public class Demo1 {
         Map<String, Object> variables = new HashMap<>();
         variables.put("userid", "salaboy");
         variables.put("userid2", "ryandawsonuk");
+        securityUtil.logInAs("salaboy");
 //        org.activiti.engine.impl.identity.Authentication.setAuthenticatedUserId("salaboy");//设置
         ProcessInstance instance = runtimeService.startProcessInstanceByKey("twouser",variables);
         logger.info("流程id："+instance.getId());
@@ -98,7 +100,8 @@ public class Demo1 {
 
         //查询 ryandawsonuk 的任务
         List<Task> list = taskService.createTaskQuery()
-                .taskAssignee("ryandawsonuk")
+//                .taskAssignee("ryandawsonuk")
+//                .taskOwner("")
                 .orderByTaskCreateTime()
                 .asc()
                 .list();
@@ -129,7 +132,14 @@ public class Demo1 {
     @Test
     public void test4(){
         String taskid = "c5f8f0ea-c97a-11e9-b4c7-1002b52d6afe";
-        String taskAssginee = "salaboy";
-        taskService.setAssignee(taskid, taskAssginee);
+        String taskAssginee = "ryandawsonuk";
+        String taskOwner = "salaboy";
+//        taskService.setAssignee(taskid, taskAssginee);
+
+        //委派：未决定PENDING,   已决定RESOLVED;
+        taskService.delegateTask(taskid, "ssdsadsa");
+
+//        taskService.setOwner(taskid,taskOwner);
     }
+
 }
